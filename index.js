@@ -14,7 +14,12 @@ const Sequelize = require('sequelize');
         dialect: 'mysql'
     });
 
+//Rotas
+    app.get('/cad', (req, res)=>{
+        res.render('formulario');
+    })
 
-app.listen(5500, () => {
+
+app.listen(5500, ()=>{
     console.log('servidor rodando');
 });
