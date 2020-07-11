@@ -4,9 +4,29 @@ const sequelize = new Sequelize('teste', 'root', 'Ckda@3301', {
     dialect: 'mysql'
 });
 
-sequelize.authenticate()
-    .then(() => {
-        console.log('conectado com sucesso!');       
-    }).catch((error) => {
-        console.log('falha ao se conectar! \nerro: ' + error);
-    });
+const Postagem = sequelize.define('postagens', {
+    titulo: {
+        type: Sequelize.STRING
+    },
+    conteudo: {
+        type: Sequelize.TEXT
+    }
+})
+
+const Usuario = sequelize.define('usuarios', {
+    nome: {
+        type: Sequelize.STRING
+    },
+    sobrenome: {
+        type: Sequelize.STRING
+    },
+    idade: {
+        type: Sequelize.INTEGER
+    },
+    email: {
+        type: Sequelize.STRING
+    }
+})
+
+
+
