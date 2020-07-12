@@ -24,6 +24,16 @@ const Post = require('./models/Post');
         res.render('formulario');
     }); 
 
+
+    app.get('/listar/:id', (req, res) => {
+        Post.findAll({
+            limit: 1,
+            where: {'id': req.params.id}
+          }).then((posts) => {
+            res.render('atualizar', {posts: posts});
+        })
+    });
+
     app.post('/add', (req, res) => {
         Post.create({
             titulo: req.body.titulo,
@@ -35,6 +45,21 @@ const Post = require('./models/Post');
         });
 
     }); 
+
+    app.post('/atualizar', (req, res) => {
+        console.log('body ==> ' + JSON.stringify(req.body));
+        Post.update({
+            titulo: req.body.titulo,
+            conteudo: req.body.conteudo},
+        {
+            where: {'id': req.body.id}
+        }).then(() => {
+            res.redirect('/');
+        }).catch((error) => {
+            res.send('Erro ao atualizar postagem: ' + error);
+        })
+
+    });
     
     app.get('/deletar/:id', (req, res) => {
         Post.destroy({where: {'id': req.params.id}})
