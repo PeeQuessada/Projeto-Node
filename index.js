@@ -14,7 +14,10 @@ const Post = require('./models/Post');
 
 //Rotas
     app.get('/', (req, res) => {
-        res.render('home');
+        Post.findAll().then((posts) => {
+            res.render('home', {posts: posts});
+        })
+        
     });
 
     app.get('/cad', (req, res) => {
@@ -32,6 +35,15 @@ const Post = require('./models/Post');
         });
 
     }); 
+    
+    app.get('/deletar/:id', (req, res) => {
+        Post.destroy({where: {'id': req.params.id}})
+        .then(() => {
+            res.send('Postagem deletada com sucesso');
+        }).catch((error) => {
+            res.send('Essa postagem nao existe! ' + error);
+        })
+    });
 
 
 
