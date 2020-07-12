@@ -17,7 +17,11 @@ const Sequelize = require('sequelize');
 //Rotas
     app.get('/cad', (req, res)=>{
         res.render('formulario');
-    })
+    }) 
+
+    app.post('/add', (req, res)=>{
+        res.send('FORMULARIO RECEBIDO');
+    }); 
 
 
 app.listen(5500, ()=>{
