@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const handlebars = require("express-handlebars")
 const bodyParser = require('body-parser');
-const Sequelize = require('sequelize');
+const Post = require('./models/Post');
 
 // Config
     // Template Engine
@@ -10,22 +10,30 @@ const Sequelize = require('sequelize');
     app.set('view engine', 'handlebars');
     // Body Parser
     app.use(bodyParser.urlencoded({extended: false}));
-    app.use(bodyParser.json())
-
-    //Conexão com o banco de dados MySql
-    const sequelize = new Sequelize('postapp', 'root', 'Ckda@3301', {
-        host: "localhost",
-        dialect: 'mysql'
-    });
+    app.use(bodyParser.json());
 
 //Rotas
+    app.get('/', (req, res) => {
+        res.render('home');
+    });
+
     app.get('/cad', (req, res) => {
         res.render('formulario');
-    }) 
+    }); 
 
     app.post('/add', (req, res) => {
-        res.send("Texto: " + req.body.titulo + " post: " + req.body.conteudo);
+        Post.create({
+            titulo: req.body.titulo,
+            conteudo: req.body.conteudo
+        }).then(() => {
+            res.redirect('/');
+        }).catch((error) => {
+            res.send('Erro ao criar um post: ' + error);
+        });
+
     }); 
+
+
 
 
 app.listen(8081, () => {
